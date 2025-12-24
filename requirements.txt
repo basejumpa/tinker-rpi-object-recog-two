@@ -1,0 +1,22 @@
+# Camera support (use system package: python3-picamera2)
+# picamera2>=0.3.12  # Installed via apt
+
+# Computer Vision and Object Detection (use system package for OpenCV)
+# opencv-python>=4.8.0  # Installed via apt as python3-opencv
+
+# TensorFlow Lite for object detection
+# Note: tflite-runtime is not available for all platforms
+# The application will work without it in dummy/demo mode
+# For ARM platforms, install manually if needed:
+#   - Try: pip install --index-url https://google-coral.github.io/py-repo/ tflite_runtime
+#   - Or use TensorFlow Lite from tensorflow package (larger but more compatible)
+
+# Image processing (use system packages)
+# numpy>=1.24.0  # Installed via apt as python3-numpy
+# Pillow>=10.0.0  # Installed via apt as python3-pil
+
+# Text-to-Speech
+pyttsx3>=2.90
+
+# System utilities (for display)
+# pygame is optional, we use OpenCV for display
