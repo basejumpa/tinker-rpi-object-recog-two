@@ -5,7 +5,11 @@
 # opencv-python>=4.8.0  # Installed via apt as python3-opencv
 
 # TensorFlow Lite for object detection
-tflite-runtime>=2.14.0; platform_machine == "aarch64" or platform_machine == "armv7l"
+# Note: tflite-runtime is not available for all platforms
+# The application will work without it in dummy/demo mode
+# For ARM platforms, install manually if needed:
+#   - Try: pip install --index-url https://google-coral.github.io/py-repo/ tflite_runtime
+#   - Or use TensorFlow Lite from tensorflow package (larger but more compatible)
 
 # Image processing (use system packages)
 # numpy>=1.24.0  # Installed via apt as python3-numpy

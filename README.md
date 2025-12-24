@@ -44,7 +44,9 @@ The setup script will install all dependencies, download the object detection mo
 
 This script will:
 - Install system dependencies optimized for Debian Trixie (OpenCV, PiCamera2, audio libraries, etc.)
-- Install Python packages from `requirements.txt`
+- Create a Python virtual environment
+- Install Python packages (pyttsx3 for text-to-speech)
+- Attempt to install TensorFlow Lite Runtime (may not be available for all platforms)
 - Download the TensorFlow Lite object detection model
 - Create necessary directories
 - Configure HDMI audio output
@@ -52,6 +54,11 @@ This script will:
 **Note:** The setup script is optimized for Raspberry Pi OS Trixie and uses:
 - System packages for major dependencies (python3-opencv, python3-picamera2, python3-numpy, python3-pil)
 - A Python virtual environment for remaining packages to comply with PEP 668 (externally-managed-environment)
+
+**Important:** TensorFlow Lite Runtime may not be available for Python 3.13 on ARM platforms. If installation fails:
+- The application will work in **demo mode** (camera and display functional, but no object detection)
+- See [TFLITE_INSTALL.md](TFLITE_INSTALL.md) for alternative installation methods
+- Or test the camera/display setup first, then add TFLite later
 
 ### 3. Manual Installation (Alternative)
 
@@ -165,6 +172,35 @@ The model can detect 80+ common objects including:
 See `models/coco_labels.txt` for the complete list after running setup.
 
 ## Troubleshooting
+
+### TensorFlow Lite Installation Issues
+
+If you see errors like:
+```
+ERROR: Could not find a version that satisfies the requirement tflite-runtime>=2.14.0
+```
+
+**Solution**: TensorFlow Lite Runtime is not available for all Python versions on ARM.
+
+1. **Try the Google Coral repository**:
+   ```bash
+   source venv/bin/activate
+   pip install --index-url https://google-coral.github.io/py-repo/ tflite_runtime
+   deactivate
+   ```
+
+2. **Or install full TensorFlow** (larger but more compatible):
+   ```bash
+   source venv/bin/activate
+   pip install tensorflow
+   deactivate
+   ```
+
+3. **Or run in demo mode** (no object detection, but camera/display work):
+   - Just run `./run.sh` - the app will work without TFLite
+   - Useful for testing your setup
+
+See [TFLITE_INSTALL.md](TFLITE_INSTALL.md) for detailed instructions.
 
 ### Camera Not Working
 

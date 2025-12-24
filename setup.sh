@@ -68,6 +68,13 @@ if [ -f requirements.txt ]; then
     source venv/bin/activate
     pip install --upgrade pip
     pip install -r requirements.txt
+    
+    # Try to install TensorFlow Lite Runtime from Google Coral repo
+    echo "Attempting to install TensorFlow Lite Runtime..."
+    pip install --index-url https://google-coral.github.io/py-repo/ tflite_runtime 2>/dev/null || \
+    echo "  Note: TensorFlow Lite Runtime not available. Application will run in demo mode."
+    echo "  For full object detection, manually install a compatible TFLite package."
+    
     deactivate
     echo "Python packages installed successfully"
 else

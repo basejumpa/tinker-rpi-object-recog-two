@@ -10,9 +10,20 @@ import cv2
 
 try:
     from tflite_runtime.interpreter import Interpreter
+    TFLITE_AVAILABLE = True
 except ImportError:
-    import tensorflow as tf
-    Interpreter = tf.lite.Interpreter
+    try:
+        import tensorflow as tf
+        Interpreter = tf.lite.Interpreter
+        TFLITE_AVAILABLE = True
+    except ImportError:
+        print("Warning: Neither tflite_runtime nor tensorflow is available.")
+        print("Object detection will run in demo mode without actual inference.")
+        print("To enable object detection, install one of:")
+        print("  1. pip install --index-url https://google-coral.github.io/py-repo/ tflite_runtime")
+        print("  2. pip install tensorflow")
+        TFLITE_AVAILABLE = False
+        Interpreter = None
 
 
 class ObjectDetector:
@@ -29,6 +40,14 @@ class ObjectDetector:
         """
         self.threshold = threshold
         self.labels = self.load_labels(labels_path)
+        
+        # Check if TFLite is available
+        if not TFLITE_AVAILABLE or Interpreter is None:
+            print("Running in DEMO MODE - no actual object detection")
+            self.interpreter = None
+            self.height = 300
+            self.width = 300
+            return
         
         # Load TFLite model
         try:
