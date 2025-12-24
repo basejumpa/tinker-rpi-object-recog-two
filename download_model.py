@@ -32,16 +32,8 @@ def main():
     print()
     
     # EfficientDet-Lite0 model (optimized for edge devices)
-    model_url = "https://storage.googleapis.com/download.tensorflow.org/models/tflite/coco_ssd_mobilenet_v1_1.0_quant_2018_06_29.zip"
-    model_zip = "models/model.zip"
-    
-    # Alternative: Use a pre-extracted model
-    # This is a lightweight object detection model
     model_url = "https://storage.googleapis.com/download.tensorflow.org/models/tflite/task_library/object_detection/rpi/lite-model_efficientdet_lite0_detection_metadata_1.tflite"
     model_path = "models/efficientdet_lite0.tflite"
-    
-    # COCO labels
-    labels_url = "https://storage.googleapis.com/download.tensorflow.org/models/tflite/coco_ssd_mobilenet_v1_1.0_quant_2018_06_29.zip"
     
     # Download model
     success = download_file(model_url, model_path)

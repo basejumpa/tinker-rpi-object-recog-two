@@ -23,7 +23,7 @@ echo "Installing system dependencies..."
 sudo apt-get install -y \
     python3-pip \
     python3-opencv \
-    libatlas-base-dev \
+    python3-picamera2 \
     libopenblas-dev \
     libjpeg-dev \
     libpng-dev \
@@ -36,27 +36,32 @@ sudo apt-get install -y \
     libx264-dev \
     libfontconfig1-dev \
     libcairo2-dev \
-    libgdk-pixbuf2.0-dev \
+    libgdk-pixbuf-xlib-2.0-dev \
     libpango1.0-dev \
-    libgtk2.0-dev \
     libgtk-3-dev \
     libhdf5-dev \
-    libhdf5-serial-dev \
-    libhdf5-103 \
-    libqtgui4 \
-    libqtwebkit4 \
-    libqt4-test \
-    libilmbase-dev \
+    libimath-dev \
     libopenexr-dev \
     libgstreamer1.0-dev \
     espeak \
     espeak-ng \
-    alsa-utils
+    alsa-utils \
+    portaudio19-dev \
+    python3-pyaudio
 
 # Install Python packages
 echo "Installing Python dependencies..."
-pip3 install --upgrade pip
-pip3 install -r requirements.txt --break-system-packages || pip3 install -r requirements.txt
+pip3 install --upgrade pip --break-system-packages 2>/dev/null || pip3 install --upgrade pip
+
+# Install requirements with system packages preferred
+echo "Installing Python packages (using system packages where available)..."
+if [ -f requirements.txt ]; then
+    # Try with --break-system-packages first (needed for Debian Bookworm and newer)
+    pip3 install -r requirements.txt --break-system-packages 2>/dev/null || \
+    pip3 install -r requirements.txt
+else
+    echo "Warning: requirements.txt not found"
+fi
 
 # Create models directory
 echo "Creating models directory..."

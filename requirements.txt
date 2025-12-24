@@ -1,9 +1,9 @@
-# Camera support
-picamera2>=0.3.12
+# Camera support (use system package: python3-picamera2)
+# picamera2>=0.3.12  # Installed via apt
 
-# Computer Vision and Object Detection
-opencv-python>=4.8.0
-tflite-runtime>=2.14.0
+# Computer Vision and Object Detection (use system package for OpenCV)
+# opencv-python>=4.8.0  # Installed via apt as python3-opencv
+tflite-runtime>=2.14.0; platform_machine == "aarch64" or platform_machine == "armv7l"
 
 # Image processing
 numpy>=1.24.0
@@ -12,5 +12,5 @@ Pillow>=10.0.0
 # Text-to-Speech
 pyttsx3>=2.90
 
-# System utilities
-pygame>=2.5.0
+# System utilities (for display)
+# pygame is optional, we use OpenCV for display

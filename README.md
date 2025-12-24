@@ -43,11 +43,13 @@ The setup script will install all dependencies, download the object detection mo
 ```
 
 This script will:
-- Install system dependencies (OpenCV, audio libraries, etc.)
+- Install system dependencies optimized for Debian Trixie (OpenCV, PiCamera2, audio libraries, etc.)
 - Install Python packages from `requirements.txt`
 - Download the TensorFlow Lite object detection model
 - Create necessary directories
 - Configure HDMI audio output
+
+**Note:** The setup script is optimized for Raspberry Pi OS Trixie and uses system packages where possible (python3-opencv, python3-picamera2) to ensure compatibility with Python 3.13.
 
 ### 3. Manual Installation (Alternative)
 

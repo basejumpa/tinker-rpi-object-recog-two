@@ -58,8 +58,8 @@ class ObjectDetector:
         try:
             with open(labels_path, 'r') as f:
                 labels = [line.strip() for line in f.readlines()]
-            # Some models have an empty first label, skip it
-            if labels[0] == '???':
+            # Some models have a placeholder or empty first label, skip it
+            if labels and (labels[0] == '???' or not labels[0]):
                 labels = labels[1:]
             return labels
         except FileNotFoundError:
