@@ -90,6 +90,33 @@ sudo amixer cset numid=3 2
 
 ## Usage
 
+### Important: X11 Desktop Environment Required
+
+The application uses OpenCV to display video on HDMI, which **requires an X11 desktop environment**. You cannot run it from a text-only console.
+
+**Option 1: Run from Raspberry Pi Desktop (Recommended)**
+1. Connect keyboard/mouse/monitor to your Raspberry Pi
+2. Boot into the desktop environment (Raspberry Pi OS Desktop)
+3. Open a terminal window on the desktop
+4. Run the application:
+   ```bash
+   cd ~/tinker-rpi-object-recog-two
+   ./run.sh
+   ```
+
+**Option 2: Run via VNC**
+1. Enable VNC on your Raspberry Pi: `sudo raspi-config` → Interface Options → VNC
+2. Connect to the Pi using a VNC viewer
+3. Open a terminal in the VNC session
+4. Run the application as above
+
+**Option 3: SSH with X11 forwarding (slower, for testing only)**
+```bash
+ssh -X pi@raspberrypi
+cd ~/tinker-rpi-object-recog-two
+./run.sh
+```
+
 ### Basic Usage
 
 Run the application using the helper script:
@@ -201,6 +228,19 @@ ERROR: Could not find a version that satisfies the requirement tflite-runtime>=2
    - Useful for testing your setup
 
 See [TFLITE_INSTALL.md](TFLITE_INSTALL.md) for detailed instructions.
+
+### Application Shows Nothing / No Display on HDMI
+
+If you run the application and see no output or the HDMI still shows a text console:
+
+**Cause**: The application requires an X11 desktop environment. It cannot run from a text console or SSH session without desktop.
+
+**Solution**:
+1. Boot Raspberry Pi to desktop environment (Raspberry Pi OS Desktop)
+2. Open terminal **on the desktop** (not via SSH to text console)
+3. Run the application from that terminal
+
+See [DISPLAY_TROUBLESHOOTING.md](DISPLAY_TROUBLESHOOTING.md) for detailed instructions and solutions.
 
 ### Camera Not Working
 

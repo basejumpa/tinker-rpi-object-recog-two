@@ -77,6 +77,29 @@ class ObjectRecognitionApp:
     def initialize_display(self):
         """Initialize the display manager for HDMI output"""
         print("Initializing display...")
+        
+        # Check if X11 display is available
+        import os
+        if not os.environ.get('DISPLAY'):
+            print("\n" + "="*60)
+            print("WARNING: No X11 display detected!")
+            print("="*60)
+            print("The application requires an X11 desktop environment to display")
+            print("video output via OpenCV.")
+            print("\nTo run the application:")
+            print("  1. Start the desktop environment (if using Raspberry Pi OS Desktop)")
+            print("  2. Open a terminal on the desktop")
+            print("  3. Run: source venv/bin/activate && python main.py")
+            print("\nAlternatively, if using SSH:")
+            print("  1. Ensure Raspberry Pi is running a desktop environment")
+            print("  2. SSH with X11 forwarding: ssh -X pi@raspberrypi")
+            print("  3. Or connect directly to the Raspberry Pi's desktop")
+            print("\nFor headless operation without desktop:")
+            print("  - The application currently requires X11")
+            print("  - Consider using VNC or connecting a keyboard/mouse to the Pi")
+            print("="*60)
+            raise RuntimeError("X11 display not available. Run from desktop environment.")
+        
         self.display = DisplayManager(
             width=config.DISPLAY_WIDTH,
             height=config.DISPLAY_HEIGHT

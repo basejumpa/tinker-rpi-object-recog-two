@@ -2,10 +2,12 @@
 Display Manager Module
 
 Handles displaying video frames on the HDMI output using OpenCV.
+Requires X11 display server to be running.
 """
 
 import cv2
 import numpy as np
+import os
 
 
 class DisplayManager:
@@ -18,20 +20,31 @@ class DisplayManager:
         Args:
             width: Display width in pixels
             height: Display height in pixels
+            
+        Raises:
+            RuntimeError: If X11 display is not available
         """
         self.width = width
         self.height = height
         self.window_name = "Object Recognition"
         
-        # Create a named window
-        cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
+        # Verify X11 display is available
+        if not os.environ.get('DISPLAY'):
+            raise RuntimeError("No X11 DISPLAY environment variable set. Cannot create window.")
         
-        # Set window to fullscreen for HDMI output
-        cv2.setWindowProperty(
-            self.window_name,
-            cv2.WND_PROP_FULLSCREEN,
-            cv2.WINDOW_FULLSCREEN
-        )
+        try:
+            # Create a named window
+            cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
+            
+            # Set window to fullscreen for HDMI output
+            cv2.setWindowProperty(
+                self.window_name,
+                cv2.WND_PROP_FULLSCREEN,
+                cv2.WINDOW_FULLSCREEN
+            )
+            print(f"Display window created: {width}x{height}")
+        except Exception as e:
+            raise RuntimeError(f"Failed to create OpenCV window: {e}")
         
     def show_frame(self, frame):
         """
