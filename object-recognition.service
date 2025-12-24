@@ -1,0 +1,16 @@
+[Unit]
+Description=Raspberry Pi Object Recognition Application
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/tinker-rpi-object-recog-two
+Environment="DISPLAY=:0"
+Environment="XAUTHORITY=/home/pi/.Xauthority"
+ExecStart=/usr/bin/python3 /home/pi/tinker-rpi-object-recog-two/main.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

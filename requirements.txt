@@ -1,0 +1,16 @@
+# Camera support
+picamera2>=0.3.12
+
+# Computer Vision and Object Detection
+opencv-python>=4.8.0
+tflite-runtime>=2.14.0
+
+# Image processing
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# Text-to-Speech
+pyttsx3>=2.90
+
+# System utilities
+pygame>=2.5.0
