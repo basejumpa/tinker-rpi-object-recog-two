@@ -24,6 +24,9 @@ sudo apt-get install -y \
     python3-pip \
     python3-opencv \
     python3-picamera2 \
+    python3-numpy \
+    python3-pil \
+    python3-venv \
     libopenblas-dev \
     libjpeg-dev \
     libpng-dev \
@@ -49,16 +52,24 @@ sudo apt-get install -y \
     portaudio19-dev \
     python3-pyaudio
 
-# Install Python packages
-echo "Installing Python dependencies..."
-pip3 install --upgrade pip --break-system-packages 2>/dev/null || pip3 install --upgrade pip
+# Create virtual environment for Python packages
+echo "Creating Python virtual environment..."
+if [ ! -d "venv" ]; then
+    python3 -m venv venv --system-site-packages
+    echo "Virtual environment created"
+else
+    echo "Virtual environment already exists"
+fi
 
-# Install requirements with system packages preferred
-echo "Installing Python packages (using system packages where available)..."
+# Activate virtual environment and install packages
+echo "Installing Python packages in virtual environment..."
 if [ -f requirements.txt ]; then
-    # Try with --break-system-packages first (needed for Debian Bookworm and newer)
-    pip3 install -r requirements.txt --break-system-packages 2>/dev/null || \
-    pip3 install -r requirements.txt
+    # Use virtual environment to avoid externally-managed-environment issues
+    source venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    deactivate
+    echo "Python packages installed successfully"
 else
     echo "Warning: requirements.txt not found"
 fi
@@ -69,7 +80,9 @@ mkdir -p models
 
 # Download TensorFlow Lite model and labels
 echo "Downloading object detection model..."
-python3 download_model.py
+source venv/bin/activate
+python download_model.py
+deactivate
 
 # Configure audio for HDMI
 echo "Configuring audio output..."
@@ -81,7 +94,11 @@ echo "Setup complete!"
 echo "======================================"
 echo ""
 echo "To run the application:"
-echo "  python3 main.py"
+echo "  source venv/bin/activate"
+echo "  python main.py"
+echo ""
+echo "Or use the helper script:"
+echo "  ./run.sh"
 echo ""
 echo "Make sure your camera and HDMI display are connected."
 echo ""

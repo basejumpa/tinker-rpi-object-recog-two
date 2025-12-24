@@ -8,7 +8,7 @@ User=pi
 WorkingDirectory=/home/pi/tinker-rpi-object-recog-two
 Environment="DISPLAY=:0"
 Environment="XAUTHORITY=/home/pi/.Xauthority"
-ExecStart=/usr/bin/python3 /home/pi/tinker-rpi-object-recog-two/main.py
+ExecStart=/home/pi/tinker-rpi-object-recog-two/venv/bin/python /home/pi/tinker-rpi-object-recog-two/main.py
 Restart=on-failure
 RestartSec=10
 

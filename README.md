@@ -49,7 +49,9 @@ This script will:
 - Create necessary directories
 - Configure HDMI audio output
 
-**Note:** The setup script is optimized for Raspberry Pi OS Trixie and uses system packages where possible (python3-opencv, python3-picamera2) to ensure compatibility with Python 3.13.
+**Note:** The setup script is optimized for Raspberry Pi OS Trixie and uses:
+- System packages for major dependencies (python3-opencv, python3-picamera2, python3-numpy, python3-pil)
+- A Python virtual environment for remaining packages to comply with PEP 668 (externally-managed-environment)
 
 ### 3. Manual Installation (Alternative)
 
@@ -58,13 +60,22 @@ If you prefer to install dependencies manually:
 ```bash
 # Install system packages
 sudo apt-get update
-sudo apt-get install -y python3-pip python3-opencv libatlas-base-dev espeak alsa-utils
+sudo apt-get install -y python3-pip python3-opencv python3-picamera2 python3-numpy python3-pil python3-venv espeak alsa-utils
+
+# Create virtual environment
+python3 -m venv venv --system-site-packages
+
+# Activate virtual environment
+source venv/bin/activate
 
 # Install Python dependencies
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 
 # Download the model
-python3 download_model.py
+python download_model.py
+
+# Deactivate virtual environment
+deactivate
 
 # Configure HDMI audio
 sudo amixer cset numid=3 2
@@ -74,10 +85,17 @@ sudo amixer cset numid=3 2
 
 ### Basic Usage
 
-Simply run the main application:
+Run the application using the helper script:
 
 ```bash
-python3 main.py
+./run.sh
+```
+
+Or manually activate the virtual environment:
+
+```bash
+source venv/bin/activate
+python main.py
 ```
 
 The application will:
